@@ -1,14 +1,25 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import path from 'path'
+import { componentTagger } from 'lovable-tagger'
 
-// https://vite.dev/config/
-export default defineConfig({
-  base: '/Bioni-c-Site/',
+export default defineConfig(({ mode }) => ({
+  base: mode === 'development' ? '/' : '/Bioni-c-Site/',
   plugins: [
     react({
       babel: {
         plugins: [['babel-plugin-react-compiler']],
       },
     }),
-  ],
-})
+    mode === 'development' && componentTagger(),
+  ].filter(Boolean),
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  server: {
+    host: '::',
+    port: 8080,
+  },
+}))
