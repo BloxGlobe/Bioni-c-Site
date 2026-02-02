@@ -1,9 +1,11 @@
+import '../../site-pages/landing/index';
+
 function Landing() {
   return (
     <main>
-      <h1>Landing</h1>
+      {/* Landing page content */}
     </main>
-  )
+  );
 }
 
-export default Landing
+export default Landing;
