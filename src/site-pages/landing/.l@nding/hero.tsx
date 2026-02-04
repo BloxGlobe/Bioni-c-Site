@@ -4,7 +4,6 @@ const Hero: React.FC = () => {
   const [playerCount, setPlayerCount] = useState(0);
 
   useEffect(() => {
-    // Simulate fetching or updating player count
     const timer = setTimeout(() => {
       setPlayerCount(1);
     }, 0);
@@ -16,40 +15,35 @@ const Hero: React.FC = () => {
 
   return (
     <section className="hero">
-      {/* YouTube video background */}
-      <div className="video-background">
-        <iframe
-          src="https://www.youtube.com/embed/wNl0kyRgCb0?autoplay=1&mute=1&loop=1&playlist=wNl0kyRgCb0&controls=0&showinfo=0&modestbranding=1"
-          allow="autoplay; encrypted-media"
-          allowFullScreen
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            border: 'none',
-            pointerEvents: 'none'
-          }}
-        />
-      </div>
+      <div className="hero-split">
+        {/* Left side - Content */}
+        <div className="hero-left">
+          <div className="player-count">
+            <span className="player-count-label">Live Players: </span>
+            <span className="player-count-number">{playerCount}</span>
+          </div>
 
-      {/* Overlay */}
-      <div className="hero-overlay"></div>
+          <h1 className="hero-title">
+            Impossible?<br />
+            <span className="hero-subtitle">Possible.</span>
+          </h1>
+          
+          <p className="hero-tagline">
+            Bionic Studio - The creative platform for young innovators
+          </p>
 
-      {/* Content */}
-      <div className="hero-content">
-        <div className="player-count">
-          <span className="player-count-label">Live Players: </span>
-          <span className="player-count-number">{playerCount}</span>
+          <div className="hero-cta">
+            <button className="cta-primary">Get Started</button>
+            <button className="cta-secondary">Learn More</button>
+          </div>
         </div>
 
-        <h1 className="hero-title">Bionic Studio</h1>
-        
-        <p className="hero-intro">
-          Welcome to Bionic Studio - where creativity meets innovation. 
-          Build, create, and bring your ideas to life with our cutting-edge platform.
-        </p>
+        {/* Right side - Visual */}
+        <div className="hero-right">
+          <div className="hero-visual">
+            <div className="visual-accent"></div>
+          </div>
+        </div>
       </div>
     </section>
   );
