@@ -1,9 +1,11 @@
-import '../../site-pages/landing/index';
+import { Navbar, Hero, Footer } from '../../site-pages/landing/index';
 
 function Landing() {
   return (
     <main>
-      {/* Landing page content */}
+      <Navbar />
+      <Hero />
+      <Footer />
     </main>
   );
 }
