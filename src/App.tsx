@@ -1,14 +1,19 @@
-import { Routes, Route } from 'react-router-dom'
-import Landing from './components/landing/landing'
-import Dashboard from './components/dashboard/dashboard'
+// App.tsx
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Landing from './components/landing/landing';
+import Dashboard from './components/dashboard/dashboard';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-    </Routes>
-  )
+    <BrowserRouter>
+      <Routes>
+        {/* Default route */}
+        <Route path="/" element={<Landing />} />
+        {/* Dashboard route */}
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

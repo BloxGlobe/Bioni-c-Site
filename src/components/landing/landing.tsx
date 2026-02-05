@@ -1,6 +1,7 @@
+import type { ReactElement } from 'react';
 import { Navbar, Hero, Footer } from '../../site-pages/landing/index';
 
-function Landing() {
+function Landing(): ReactElement {
   return (
     <main>
       <Navbar />
