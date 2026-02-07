@@ -1,25 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+// Subtitles outside component to avoid dependency warnings
+const subtitles = ['Loading…', 'Still loading…', 'Almost there…'];
 
 const Loading: React.FC = () => {
+  const [subtitleIndex, setSubtitleIndex] = useState(0);
+
+  useEffect(() => {
+    const subtitleTimer = setInterval(() => {
+      setSubtitleIndex((prev) => (prev + 1) % subtitles.length);
+    }, 3500);
+
+    return () => clearInterval(subtitleTimer);
+  }, []);
+
   return (
     <>
-      {/* Font + animations */}
-      <style>
-        {`
-          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
-          @keyframes spinEase {
-            0% { transform: rotate(0deg); }
-            50% { transform: rotate(180deg); }
-            100% { transform: rotate(360deg); }
-          }
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
 
-          @keyframes cornerPulse {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.8; }
-          }
-        `}
-      </style>
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); opacity: 0.6; }
+          50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        @keyframes cornerPulse {
+          0%, 100% { opacity: 0.2; }
+          50% { opacity: 0.8; }
+        }
+      `}</style>
 
       <div
         style={{
@@ -35,7 +49,7 @@ const Loading: React.FC = () => {
           fontFamily: 'Inter, system-ui, sans-serif',
         }}
       >
-        {/* Corner accents */}
+        {/* Animated corner accents */}
         {['tl', 'tr', 'bl', 'br'].map((pos) => (
           <div
             key={pos}
@@ -44,7 +58,7 @@ const Loading: React.FC = () => {
               width: '24px',
               height: '24px',
               border: '2px solid #38bdf8',
-              opacity: 0.4,
+              opacity: 0.3,
               animation: 'cornerPulse 2.5s ease-in-out infinite',
               ...(pos === 'tl' && { top: 16, left: 16, borderRight: 'none', borderBottom: 'none' }),
               ...(pos === 'tr' && { top: 16, right: 16, borderLeft: 'none', borderBottom: 'none' }),
@@ -54,12 +68,8 @@ const Loading: React.FC = () => {
           />
         ))}
 
-        {/* Spinner */}
-        <svg
-          width="120"
-          height="120"
-          viewBox="0 0 120 120"
-        >
+        {/* Smooth WiFi-style spinner */}
+        <svg width="120" height="120" viewBox="0 0 120 120">
           {/* background ring */}
           <circle
             cx="60"
@@ -70,7 +80,7 @@ const Loading: React.FC = () => {
             fill="none"
           />
 
-          {/* animated ring */}
+          {/* spinning arc */}
           <circle
             cx="60"
             cy="60"
@@ -79,25 +89,27 @@ const Loading: React.FC = () => {
             strokeWidth="8"
             strokeLinecap="round"
             fill="none"
-            strokeDasharray="90 280"
+            strokeDasharray="150 200"
+            strokeDashoffset="0"
             style={{
               transformOrigin: '50% 50%',
-              animation: 'spinEase 1.6s ease-in-out infinite',
+              animation: 'spin 1.5s linear infinite, pulse 1.5s ease-in-out infinite',
             }}
           />
         </svg>
 
-        {/* Subtitle */}
+        {/* Animated subtitle */}
         <p
           style={{
             color: '#94a3b8',
-            fontSize: '1.05rem',
+            fontSize: '1.125rem',
             fontWeight: 500,
             letterSpacing: '0.02em',
             textAlign: 'center',
+            transition: 'opacity 0.3s ease-in-out',
           }}
         >
-          Loading, please wait…
+          {subtitles[subtitleIndex]}
         </p>
       </div>
     </>
