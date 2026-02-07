@@ -8,15 +8,15 @@ function Landing(): ReactElement {
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    // Start fade out after 3.5 seconds
+    
     const fadeTimer = setTimeout(() => {
       setFadeOut(true);
-    }, 3500);
+    }, 9500);
 
-    // Remove loading screen after 4 seconds
+    
     const loadTimer = setTimeout(() => {
       setIsLoading(false);
-    }, 4000);
+    }, 10000);
 
     return () => {
       clearTimeout(fadeTimer);
@@ -26,19 +26,23 @@ function Landing(): ReactElement {
 
   if (isLoading) {
     return (
-      <div style={{
-        opacity: fadeOut ? 0 : 1,
-        transition: 'opacity 0.5s ease-out'
-      }}>
+      <div
+        style={{
+          opacity: fadeOut ? 0 : 1,
+          transition: 'opacity 0.5s ease-out',
+        }}
+      >
         <Loading />
       </div>
     );
   }
 
   return (
-    <main style={{
-      animation: 'fadeIn 0.5s ease-in'
-    }}>
+    <main
+      style={{
+        animation: 'fadeIn 0.5s ease-in',
+      }}
+    >
       <style>{`
         @keyframes fadeIn {
           from { opacity: 0; }
