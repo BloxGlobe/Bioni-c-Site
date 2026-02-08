@@ -1,38 +1,31 @@
 import React, { useEffect, useState } from 'react';
 
-// Subtitles outside component to avoid dependency warnings
-const subtitles = ['Loading…', 'Still loading…', 'Almost there…'];
-
 const Loading: React.FC = () => {
-  const [subtitleIndex, setSubtitleIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const subtitleTimer = setInterval(() => {
-      setSubtitleIndex((prev) => (prev + 1) % subtitles.length);
-    }, 3500);
+    const duration = 9500; // 9.5 seconds
+    const intervalTime = 50; // Update every 50ms
+    const increment = (intervalTime / duration) * 100;
 
-    return () => clearInterval(subtitleTimer);
+    const progressTimer = setInterval(() => {
+      setProgress((prev) => {
+        const next = prev + increment;
+        if (next >= 100) {
+          clearInterval(progressTimer);
+          return 100;
+        }
+        return next;
+      });
+    }, intervalTime);
+
+    return () => clearInterval(progressTimer);
   }, []);
 
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); opacity: 0.6; }
-          50% { transform: scale(1.05); opacity: 1; }
-        }
-
-        @keyframes cornerPulse {
-          0%, 100% { opacity: 0.2; }
-          50% { opacity: 0.8; }
-        }
       `}</style>
 
       <div
@@ -44,61 +37,63 @@ const Loading: React.FC = () => {
           alignItems: 'center',
           justifyContent: 'center',
           flexDirection: 'column',
-          gap: '2rem',
+          gap: '3rem',
           zIndex: 9999,
           fontFamily: 'Inter, system-ui, sans-serif',
         }}
       >
-        {/* Animated corner accents */}
-        {['tl', 'tr', 'bl', 'br'].map((pos) => (
+        {/* Progress bar at top */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '4px',
+            background: '#1e293b',
+            overflow: 'hidden',
+          }}
+        >
           <div
-            key={pos}
             style={{
-              position: 'absolute',
-              width: '24px',
-              height: '24px',
-              border: '2px solid #38bdf8',
-              opacity: 0.3,
-              animation: 'cornerPulse 2.5s ease-in-out infinite',
-              ...(pos === 'tl' && { top: 16, left: 16, borderRight: 'none', borderBottom: 'none' }),
-              ...(pos === 'tr' && { top: 16, right: 16, borderLeft: 'none', borderBottom: 'none' }),
-              ...(pos === 'bl' && { bottom: 16, left: 16, borderRight: 'none', borderTop: 'none' }),
-              ...(pos === 'br' && { bottom: 16, right: 16, borderLeft: 'none', borderTop: 'none' }),
+              height: '100%',
+              background: 'linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%)',
+              width: `${progress}%`,
+              transition: 'width 0.05s linear',
             }}
           />
-        ))}
+        </div>
 
-        {/* Smooth WiFi-style spinner */}
-        <svg width="120" height="120" viewBox="0 0 120 120">
-          {/* background ring */}
-          <circle
-            cx="60"
-            cy="60"
-            r="46"
-            stroke="#1e293b"
-            strokeWidth="8"
-            fill="none"
+        {/* Pyramid - no animation */}
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          {/* Pyramid base triangle */}
+          <polygon
+            points="100,40 40,160 160,160"
+            fill="#1e293b"
+            stroke="#3b82f6"
+            strokeWidth="2"
           />
-
-          {/* spinning arc */}
-          <circle
-            cx="60"
-            cy="60"
-            r="46"
-            stroke="#38bdf8"
-            strokeWidth="8"
-            strokeLinecap="round"
-            fill="none"
-            strokeDasharray="150 200"
-            strokeDashoffset="0"
-            style={{
-              transformOrigin: '50% 50%',
-              animation: 'spin 1.5s linear infinite, pulse 1.5s ease-in-out infinite',
-            }}
+          
+          {/* Left face */}
+          <polygon
+            points="100,40 40,160 100,120"
+            fill="#0f172a"
+            stroke="#3b82f6"
+            strokeWidth="1"
+            opacity="0.8"
+          />
+          
+          {/* Right face */}
+          <polygon
+            points="100,40 160,160 100,120"
+            fill="#1e293b"
+            stroke="#3b82f6"
+            strokeWidth="1"
+            opacity="0.9"
           />
         </svg>
 
-        {/* Animated subtitle */}
+        {/* Loading text */}
         <p
           style={{
             color: '#94a3b8',
@@ -106,10 +101,9 @@ const Loading: React.FC = () => {
             fontWeight: 500,
             letterSpacing: '0.02em',
             textAlign: 'center',
-            transition: 'opacity 0.3s ease-in-out',
           }}
         >
-          {subtitles[subtitleIndex]}
+          Please wait as we export components for you
         </p>
       </div>
     </>
