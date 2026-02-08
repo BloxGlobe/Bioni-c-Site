@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-const Hero: React.FC = () => {
+export interface HeroProps {
+  onGetStarted: () => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ onGetStarted }) => {
   const [playerCount, setPlayerCount] = useState(0);
 
   useEffect(() => {
@@ -33,7 +37,12 @@ const Hero: React.FC = () => {
           </p>
 
           <div className="hero-cta">
-            <button className="cta-primary">Get Started</button>
+            <button 
+              className="cta-primary"
+              onClick={onGetStarted}
+            >
+              Get Started
+            </button>
             <button className="cta-secondary">Learn More</button>
           </div>
         </div>

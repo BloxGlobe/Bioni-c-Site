@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 
-const Navbar: React.FC = () => {
+export interface NavbarProps {
+  onAuthClick: (view: 'login' | 'register') => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onAuthClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -22,7 +26,12 @@ const Navbar: React.FC = () => {
         </ul>
 
         <div className="navbar-cta">
-          <button className="btn-primary">Get Started</button>
+          <button 
+            className="btn-primary"
+            onClick={() => onAuthClick('register')}
+          >
+            Get Started
+          </button>
         </div>
 
         <div className="navbar-toggle" onClick={toggleMenu}>
