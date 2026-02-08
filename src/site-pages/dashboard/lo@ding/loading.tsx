@@ -103,7 +103,7 @@ const Loading: React.FC = () => {
             textAlign: 'center',
           }}
         >
-          System: Please wait as we export components for you...
+          System: Initializing Bionic Studio...
         </p>
       </div>
     </>

@@ -5,12 +5,14 @@ import Register from './register';
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSuccess?: () => void;
   defaultView?: 'login' | 'register';
 }
 
 const AuthModal: React.FC<AuthModalProps> = ({ 
   isOpen, 
-  onClose, 
+  onClose,
+  onSuccess,
   defaultView = 'login' 
 }) => {
   const [view, setView] = useState<'login' | 'register'>(defaultView);
@@ -19,7 +21,9 @@ const AuthModal: React.FC<AuthModalProps> = ({
 
   const handleSuccess = () => {
     onClose();
-    // Optional: Add success notification
+    if (onSuccess) {
+      onSuccess();
+    }
   };
 
   return (

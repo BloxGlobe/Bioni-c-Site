@@ -1,4 +1,4 @@
-import '../../site-pages/dashboard';
+import '../../site-pages/dashboard/index';
 
 function Dashboard() {
   return <main />;

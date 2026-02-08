@@ -3,14 +3,26 @@ import { useState, useEffect } from 'react';
 import { Navbar, Hero, Footer } from '../../site-pages/landing/index';
 import Loading from '../../site-pages/landing/.lo@ding/loading';
 import AuthModal from '../auth/AuthModal';
+import Dashboard from '../dashboard/dashboard';
+import { userStorage } from '../../utils/storage';
 
 function Landing(): ReactElement {
   const [isLoading, setIsLoading] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authView, setAuthView] = useState<'login' | 'register'>('login');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
+    // Check if user is already authenticated
+    const token = userStorage.getToken();
+    if (token) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsAuthenticated(true);
+      setIsLoading(false);
+      return;
+    }
+
     const fadeTimer = setTimeout(() => {
       setFadeOut(true);
     }, 9500);
@@ -30,6 +42,10 @@ function Landing(): ReactElement {
     setIsAuthModalOpen(true);
   };
 
+  const handleAuthSuccess = () => {
+    setIsAuthenticated(true);
+  };
+
   if (isLoading) {
     return (
       <div
@@ -41,6 +57,10 @@ function Landing(): ReactElement {
         <Loading />
       </div>
     );
+  }
+
+  if (isAuthenticated) {
+    return <Dashboard />;
   }
 
   return (
@@ -62,6 +82,7 @@ function Landing(): ReactElement {
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
+        onSuccess={handleAuthSuccess}
         defaultView={authView}
       />
     </main>
