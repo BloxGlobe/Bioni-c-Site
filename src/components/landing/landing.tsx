@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import type { ReactElement } from 'react';
 import { useState, useEffect } from 'react';
 import { Navbar, Hero, Footer } from '../../site-pages/landing/index';
@@ -17,7 +18,6 @@ function Landing(): ReactElement {
     // Check if user is already authenticated
     const token = userStorage.getToken();
     if (token) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsAuthenticated(true);
       setIsLoading(false);
       return;
