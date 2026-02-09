@@ -1,27 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 const Loading: React.FC = () => {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const duration = 9500; // 9.5 seconds
-    const intervalTime = 50;
-    const increment = (intervalTime / duration) * 100;
-
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        const next = prev + increment;
-        if (next >= 100) {
-          clearInterval(timer);
-          return 100;
-        }
-        return next;
-      });
-    }, intervalTime);
-
-    return () => clearInterval(timer);
-  }, []);
-
   return (
     <>
       <style>{`
@@ -47,27 +26,6 @@ const Loading: React.FC = () => {
           zIndex: 9999,
         }}
       >
-        {/* Top progress bar */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: '4px',
-            background: '#1e293b',
-          }}
-        >
-          <div
-            style={{
-              height: '100%',
-              width: `${progress}%`,
-              background: 'linear-gradient(90deg, #3b82f6, #8b5cf6)',
-              transition: 'width 0.05s linear',
-            }}
-          />
-        </div>
-
         {/* Logo + circular loader */}
         <div
           style={{
@@ -83,8 +41,7 @@ const Loading: React.FC = () => {
           <div
             style={{
               position: 'absolute',
-              width: '100%',
-              height: '100%',
+              inset: 0,
               borderRadius: '50%',
               border: '3px solid rgba(148, 163, 184, 0.2)',
               borderTopColor: '#3b82f6',
