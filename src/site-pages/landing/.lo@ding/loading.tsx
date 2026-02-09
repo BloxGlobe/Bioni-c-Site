@@ -5,27 +5,33 @@ const Loading: React.FC = () => {
 
   useEffect(() => {
     const duration = 9500; // 9.5 seconds
-    const intervalTime = 50; // Update every 50ms
+    const intervalTime = 50;
     const increment = (intervalTime / duration) * 100;
 
-    const progressTimer = setInterval(() => {
+    const timer = setInterval(() => {
       setProgress((prev) => {
         const next = prev + increment;
         if (next >= 100) {
-          clearInterval(progressTimer);
+          clearInterval(timer);
           return 100;
         }
         return next;
       });
     }, intervalTime);
 
-    return () => clearInterval(progressTimer);
+    return () => clearInterval(timer);
   }, []);
 
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
       `}</style>
 
       <div
@@ -34,15 +40,14 @@ const Loading: React.FC = () => {
           inset: 0,
           background: '#0a0f1e',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          flexDirection: 'column',
-          gap: '3rem',
-          zIndex: 9999,
           fontFamily: 'Inter, system-ui, sans-serif',
+          zIndex: 9999,
         }}
       >
-        {/* Progress bar at top */}
+        {/* Top progress bar */}
         <div
           style={{
             position: 'absolute',
@@ -51,56 +56,61 @@ const Loading: React.FC = () => {
             right: 0,
             height: '4px',
             background: '#1e293b',
-            overflow: 'hidden',
           }}
         >
           <div
             style={{
               height: '100%',
-              background: 'linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%)',
               width: `${progress}%`,
+              background: 'linear-gradient(90deg, #3b82f6, #8b5cf6)',
               transition: 'width 0.05s linear',
             }}
           />
         </div>
 
-        {/* Pyramid - no animation */}
-        <svg width="200" height="200" viewBox="0 0 200 200">
-          {/* Pyramid base triangle */}
-          <polygon
-            points="100,40 40,160 160,160"
-            fill="#1e293b"
-            stroke="#3b82f6"
-            strokeWidth="2"
+        {/* Logo + circular loader */}
+        <div
+          style={{
+            position: 'relative',
+            width: 140,
+            height: 140,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {/* Circular loader */}
+          <div
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              borderRadius: '50%',
+              border: '3px solid rgba(148, 163, 184, 0.2)',
+              borderTopColor: '#3b82f6',
+              animation: 'spin 1.2s linear infinite',
+            }}
           />
-          
-          {/* Left face */}
-          <polygon
-            points="100,40 40,160 100,120"
-            fill="#0f172a"
-            stroke="#3b82f6"
-            strokeWidth="1"
-            opacity="0.8"
+
+          {/* Logo */}
+          <img
+            src="/logo.svg"
+            alt="Logo"
+            style={{
+              width: 64,
+              height: 64,
+            }}
           />
-          
-          {/* Right face */}
-          <polygon
-            points="100,40 160,160 100,120"
-            fill="#1e293b"
-            stroke="#3b82f6"
-            strokeWidth="1"
-            opacity="0.9"
-          />
-        </svg>
+        </div>
 
         {/* Loading text */}
         <p
           style={{
+            marginTop: '2rem',
             color: '#94a3b8',
-            fontSize: '1.125rem',
+            fontSize: '1rem',
             fontWeight: 500,
             letterSpacing: '0.02em',
-            textAlign: 'center',
           }}
         >
           System: Please wait as we export components for you...
