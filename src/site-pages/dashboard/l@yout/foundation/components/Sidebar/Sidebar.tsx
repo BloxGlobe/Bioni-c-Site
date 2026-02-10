@@ -1,8 +1,7 @@
-import React from 'react';
 import type { SidebarProps } from '../../interface/sidebar';
 import './Sidebar.css';
 
-export const Sidebar: React.FC<SidebarProps> = ({
+export const Sidebar = ({
   servers,
   categories,
   onServerSelect,
@@ -10,7 +9,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onToggleCategory,
   user,
   isDarkMode = true,
-}: SidebarProps): React.ReactElement => {
+}: SidebarProps) => {
   return (
     <aside className={`sidebar ${isDarkMode ? 'dark' : 'light'}`}>
       <div className="sidebar-header">

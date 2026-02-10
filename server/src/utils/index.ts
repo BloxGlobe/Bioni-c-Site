@@ -7,7 +7,6 @@ export const formatError = (error: unknown): string => {
 
 export const delay = (ms: number): Promise<void> => {
   return new Promise((resolve) => {
-    const timeoutId = (global as any).setTimeout(resolve, ms);
-    void timeoutId;
+    setTimeout(resolve, ms);
   });
 };
