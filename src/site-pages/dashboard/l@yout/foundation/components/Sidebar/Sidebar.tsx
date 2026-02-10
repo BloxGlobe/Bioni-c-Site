@@ -10,7 +10,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onToggleCategory,
   user,
   isDarkMode = true,
-}) => {
+}: SidebarProps): React.ReactElement => {
   return (
     <aside className={`sidebar ${isDarkMode ? 'dark' : 'light'}`}>
       <div className="sidebar-header">
